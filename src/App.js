@@ -1,25 +1,27 @@
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import Navbar from "./components/Navbar";
+import AdminScreen from "./components/AdminScreen";
+import HomeScreen from "./components/HomeScreen";
+import RegisterScreen from "./components/RegisterScreen";
+import LivePlayer from "./components/LivePlayer";
+import TVLive from "./components/TVLive";
+import GameAdminPanel from "./components/GameAdminPanel";
 
-function App() {
+const App = () => {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Router>
+      <Navbar />
+      <Routes>
+        <Route path="/" element={<HomeScreen />} />
+        <Route path="/admin" element={<AdminScreen />} />
+        <Route path="/register" element={<RegisterScreen />} />
+        <Route path="/play" element={<LivePlayer />} />
+        <Route path="/tv-live" element={<TVLive />} />
+        <Route path="/admin-panel" element={<GameAdminPanel />} />
+      </Routes>
+    </Router>
   );
-}
+};
 
 export default App;
