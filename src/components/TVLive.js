@@ -25,7 +25,7 @@ const TVLive = () => {
       setQuestions(data);
       setQuestionIds(Object.keys(data));
     });
-  }, []);
+  }, [questionIds, questionIndex]);
 
   useEffect(() => {
     const playersRef = ref(db, "players");
