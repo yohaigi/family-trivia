@@ -25,7 +25,7 @@ const TVLive = () => {
       setQuestions(data);
       setQuestionIds(Object.keys(data));
     });
-  }, [questionIds, questionIndex]);
+  }, []);
 
   useEffect(() => {
     const playersRef = ref(db, "players");
@@ -81,7 +81,7 @@ const TVLive = () => {
     }
     const timer = setTimeout(() => setTimeLeft(timeLeft - 1), 1000);
     return () => clearTimeout(timer);
-  }, [timeLeft, showAnswer, gameEnded]);
+  }, [timeLeft, showAnswer, gameEnded, questionIndex, questionIds]);
 
   useEffect(() => {
     if (!gameEnded || !Object.keys(questions).length) return;
@@ -129,10 +129,7 @@ const TVLive = () => {
       <div className="container" style={{ textAlign: "center" }}>
         <h1>🎉 ברוכים הבאים למשחק הטריוויה!</h1>
         <p>📲 סרקו את הברקוד כדי להצטרף</p>
-        console.log("🌍 baseUrl from ENV:", baseUrl);
-
         <QRCodeCanvas value={`${baseUrl}/register`} size={180} />
-
 
         <h3 style={{ marginTop: 30 }}>שחקנים שנרשמו:</h3>
         <ul style={{ listStyle: "none", padding: 0 }}>

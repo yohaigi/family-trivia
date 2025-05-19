@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useEffect, useState } from "react-router-dom";
+import { useSearchParams } from "react-router-dom";
 import { db } from "../firebase-init";
 import { ref, onValue, set } from "firebase/database";
 import { getAuth } from "firebase/auth";
@@ -35,6 +35,7 @@ const LivePlayer = () => {
   const handleSubmit = async () => {
     const userId = getAuth().currentUser?.uid;
     if (!userId || !answer || !questionId || submitted) return;
+
     await set(ref(db, `answers/${questionId}/${userId}`), {
       name,
       answer,
@@ -43,23 +44,20 @@ const LivePlayer = () => {
     setSubmitted(true);
   };
 
-  if (!questionId || !question) return <p>🔄 טוען שאלה...</p>;
+  if (!questionId || !question) return <p>טוען שאלה...</p>;
 
   return (
     <div className="container">
-      <h2>❓ שאלה: {questionId}</h2>
-      {!submitted ? (
-        <>
-          <input
-            value={answer}
-            onChange={(e) => setAnswer(e.target.value)}
-            placeholder="כתוב את תשובתך"
-          />
-          <button onClick={handleSubmit}>שלח</button>
-        </>
-      ) : (
-        <p>✅ תשובה נשלחה!</p>
-      )}
+      <h2>{questionId}</h2>
+      <input
+        value={answer}
+        onChange={(e) => setAnswer(e.target.value)}
+        placeholder="הכנס תשובה..."
+        disabled={submitted}
+      />
+      <button onClick={handleSubmit} disabled={submitted}>
+        שלח
+      </button>
     </div>
   );
 };
