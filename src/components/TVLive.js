@@ -1,3 +1,4 @@
+// 📁 src/components/TVLive.js
 import React, { useEffect, useState } from "react";
 import { db } from "../firebase-init";
 import { ref, onValue, update } from "firebase/database";
@@ -22,8 +23,9 @@ const TVLive = () => {
     const qRef = ref(db, "questions");
     return onValue(qRef, (snapshot) => {
       const data = snapshot.val() || {};
+      const ids = Object.keys(data);
       setQuestions(data);
-      setQuestionIds(Object.keys(data));
+      setQuestionIds(ids);
     });
   }, []);
 
@@ -127,17 +129,15 @@ const TVLive = () => {
   if (!questionId || !question) {
     return (
       <div className="container" style={{ textAlign: "center" }}>
-        <h1>🎉 ברוכים הבאים למשחק הטריוויה!</h1>
-        <p>📲 סרקו את הברקוד כדי להצטרף</p>
+        <h1>🎉 ברוכים הבאים לטריוויה!</h1>
+        <p>📲 סרקו את הקוד הבא כדי להצטרף:</p>
         <QRCodeCanvas value={`${baseUrl}/register`} size={180} />
-
         <h3 style={{ marginTop: 30 }}>שחקנים שנרשמו:</h3>
         <ul style={{ listStyle: "none", padding: 0 }}>
           {players.map((p, i) => (
             <li key={i} style={{ fontSize: "1.2em" }}>👤 {p.name}</li>
           ))}
         </ul>
-
         {players.length > 0 && questionIds.length > 0 && (
           <button onClick={handleStartGame} style={{ marginTop: 20 }}>
             🚀 התחל משחק
@@ -152,7 +152,13 @@ const TVLive = () => {
       {!showAnswer ? (
         <>
           <h1>⏱️ זמן נותר: {timeLeft} שניות</h1>
-          <div style={{ background: "white", padding: 30, borderRadius: 20, display: "inline-block", boxShadow: "0 0 20px rgba(0,0,0,0.1)" }}>
+          <div style={{
+            background: "white",
+            padding: 30,
+            borderRadius: 20,
+            display: "inline-block",
+            boxShadow: "0 0 20px rgba(0,0,0,0.1)"
+          }}>
             <img src={question.imageUrl} alt="question" style={{ maxWidth: "100%", marginTop: 20, borderRadius: 12 }} />
             {question.hint && (
               <div style={{ marginTop: 30, display: "flex", justifyContent: "center", gap: 10 }}>
