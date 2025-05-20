@@ -1,8 +1,8 @@
-// 📁 src/components/TVLive.js
 import React, { useEffect, useState } from "react";
 import { db } from "../firebase-init";
 import { ref, onValue, update } from "firebase/database";
 import { QRCodeCanvas } from "qrcode.react";
+import baseUrl from "../config";
 
 const TVLive = () => {
   const [players, setPlayers] = useState([]);
@@ -16,8 +16,6 @@ const TVLive = () => {
   const [showAnswer, setShowAnswer] = useState(false);
   const [gameEnded, setGameEnded] = useState(false);
   const [scores, setScores] = useState([]);
-
-  const baseUrl = process.env.REACT_APP_BASE_URL || window.location.origin;
 
   useEffect(() => {
     const qRef = ref(db, "questions");
